@@ -1,0 +1,101 @@
+name: Release CI
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    outputs:
+      RELEASE_UPLOAD_ID: ${{ steps.create_release.outputs.id }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Query version number
+        id: get_version
+        shell: bash
+        run: |
+          echo "using version tag ${GITHUB_REF:10}"
+          echo  name=version::"${GITHUB_REF:10}" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: '${{ github.ref  }}'
+          release_name: '${{ github.ref  }}'
+          body: '特别注意：使用aarch64 架构的dmg时，安装之后需执行以下命令 sudo xattr -d com.apple.quarantine /Applications/s3-wrap.app'
+
+  build-tauri:
+    needs: create-release
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'macos-latest'
+            args: '--target aarch64-apple-darwin'
+          - platform: 'macos-latest'
+            args: '--target x86_64-apple-darwin'
+          - platform: 'ubuntu-22.04'
+            args: ''
+          - platform: 'windows-latest'
+            args: ''
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      # 安装 Rust
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        if: matrix.platform == 'macos-latest'
+
+      # 兼容mac inter x86_64
+      - name: Add Rust target for x86_64-apple-darwin
+        run: rustup target add x86_64-apple-darwin
+        if: matrix.platform == 'macos-latest' && matrix.args == '--target x86_64-apple-darwin'
+
+      # 使用 Rust 缓存，加快安装速度 ,这个又问题，调一下
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
+      # 建议都安装个 Node,bun的支持现在还说不准
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # 使用setup-bun Action安装Bun
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      # 使用Bun安装依赖
+      - name: Install Dependencies with Bun
+        run: bun install
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+        with:
+          releaseId: ${{ needs.create-release.outputs.RELEASE_UPLOAD_ID }}
+          tagName: __VERSION__
+          releaseName: '__VERSION__'
+          releaseBody: 'See the assets to download this version and install.'
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}

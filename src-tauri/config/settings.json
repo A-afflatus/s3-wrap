@@ -1,0 +1,7 @@
+{
+  "settings.appearance.theme": "Light",
+  "settings.application.updateMode": true,
+  "settings.security.hideDelete": false,
+  "settings.storage.clearTransfer": 1000,
+  "settings.user.notifications": true
+}

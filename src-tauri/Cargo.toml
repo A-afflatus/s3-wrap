@@ -1,0 +1,74 @@
+[package]
+name = "s3-wrap"
+version = "0.0.0"
+description = "A Tauri App"
+authors = ["A-afflatus"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+#[build]
+# 开发加速替换编译器
+#rustc-wrapper = "sccache"
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib _name unique and wouldn't conflict with the bin _name.
+# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "s3_wrap_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["macos-private-api", "unstable", "devtools", "tray-icon"] }
+tauri-plugin-opener = "2"
+tauri-plugin-shell = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-os = "2"
+tauri-plugin-process = "2"
+#tauri-plugin-sql = { version = "2", features = ["sqlite"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+log = "0.4.21"
+chrono = "0.4.40"
+env_logger = "0.11.6"
+
+sqlx = { version = "0.8", features = ["runtime-tokio", "sqlite", "macros", "derive", "tls-native-tls"] }
+
+aws-sdk-s3 = { version = "1.81.0" ,features = ["behavior-version-latest", "rt-tokio"] }
+aws-smithy-types = "1.3.0"
+# 异步支持
+tokio = { version = "1", features = ["rt", "rt-multi-thread", "macros"] }
+# 异常处理
+anyhow = "1.0.95"
+# 文件目录
+directories = "6.0.0"
+# 文件类型
+infer= "0.19.0"
+mime_guess = "2.0.5"
+# 懒加载 静态属性
+lazy_static = "1.5.0"
+base64 = "0.22.1"
+md5 = "0.7.0"
+tauri-plugin-fs = "2"
+uuid = { version = "1.16.0", features = ["v4", "serde"] }
+tauri-plugin-clipboard-manager = "2.2.2"
+tauri-plugin-store = "2"
+[dependencies.tauri-plugin-sql]
+git = "https://github.com/tauri-apps/plugins-workspace"
+version = "2"
+features = ["sqlite"] # 或者 "postgres", 或 "mysql"
+
+[target."cfg(target_os = \"macos\")".dependencies]
+cocoa = "0.26.0"
+
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-updater = "2"
+
+[profile.dev]
+opt-level = 0
+
+[profile.release]
+opt-level = 3

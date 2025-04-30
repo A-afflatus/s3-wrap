@@ -1,0 +1,50 @@
+name: 🐞 Bug Report
+title: '[bug] '
+description: Report a bug
+labels: ['type: bug', 'status: needs triage']
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## First of all
+        1. Please search for [existing issues](https://github.com/A-afflatus/s3-warp/issues) about this problem first.
+        2. Make sure s3-warp packages are up to date.
+        3. Make sure it's an issue with s3-warp and not something else you are using.
+        4. Remember to follow our community guidelines and be friendly.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: A clear description of what the bug is. Include screenshots if applicable.
+      placeholder: Bug description
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: A clear description of what you expected to happen.
+
+  - type: textarea
+    id: info
+    attributes:
+      label: Full `tauri info` output
+      description: "Output of `npm run tauri info` or `cargo tauri info`"
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Stack trace
+      render: text
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.
