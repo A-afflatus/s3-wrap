@@ -8,6 +8,7 @@ const require = createRequire(import.meta.url);
 
 async function release() {
   const flag = process.argv[2] ?? 'patch';
+  console.log(`[release] ${flag}`);
   const packageJson = require('../package.json');
   let [a, b, c] = packageJson.version.split('.').map(Number);
 
