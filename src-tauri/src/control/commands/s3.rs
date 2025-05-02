@@ -3,7 +3,7 @@ use crate::core::s3::bucket::{S3Bucket, S3BucketInfo};
 use crate::core::s3::credential::{get_s3_pool, CredentialStorage, S3Credential};
 use crate::core::s3::object::{S3ObjectDetail, S3ObjectList};
 use crate::core::s3::types::S3CorsRule;
-use crate::db::sqlite;
+use crate::middleware::sqlite;
 use log::{error, info, warn};
 use std::future::Future;
 use std::sync::Arc;

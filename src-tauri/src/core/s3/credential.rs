@@ -1,4 +1,4 @@
-use crate::db::sqlite;
+use crate::middleware::sqlite;
 use anyhow::anyhow;
 use aws_sdk_s3::config::Credentials;
 use aws_sdk_s3::config::{Region, RequestChecksumCalculation, ResponseChecksumValidation};

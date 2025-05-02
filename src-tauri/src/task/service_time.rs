@@ -1,4 +1,4 @@
-use crate::db::sqlite::get_sql_lite_pool;
+use crate::middleware::sqlite::get_sql_lite_pool;
 use log::{error, info};
 use std::thread;
 use tauri::async_runtime::block_on;

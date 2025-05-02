@@ -1,14 +1,14 @@
 mod common;
 mod control;
 mod core;
-mod db;
+mod middleware;
 mod task;
 use task::service_time;
 
-use self::core::s3::{commands, credential};
+use self::core::s3::credential;
 use control::{cmd, setup};
-use core::task::commands as task_commands;
-use db::sqlite;
+use control::commands::{s3 as s3_commands, task as task_commands};
+use middleware::sqlite;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -39,18 +39,18 @@ pub fn run() {
             cmd::view_go_forward,
             cmd::view_go_back,
             cmd::close_window,
-            commands::save_credential,
-            commands::get_buckets,
-            commands::list_objects,
-            commands::create_bucket,
-            commands::put_object,
-            commands::delete_objects,
-            commands::delete_bucket,
-            commands::get_object_url,
-            commands::get_bucket_info,
-            commands::put_bucket_cors,
-            commands::delete_bucket_cors,
-            commands::get_object_info,
+            s3_commands::save_credential,
+            s3_commands::get_buckets,
+            s3_commands::list_objects,
+            s3_commands::create_bucket,
+            s3_commands::put_object,
+            s3_commands::delete_objects,
+            s3_commands::delete_bucket,
+            s3_commands::get_object_url,
+            s3_commands::get_bucket_info,
+            s3_commands::put_bucket_cors,
+            s3_commands::delete_bucket_cors,
+            s3_commands::get_object_info,
             task_commands::create_download_task,
             task_commands::create_upload_task,
             task_commands::run_task,

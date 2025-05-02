@@ -1,4 +1,5 @@
-use crate::db::store;
+use crate::middleware::store;
+use crate::middleware::app_context;
 use log::info;
 use tauri::async_runtime::block_on;
 use tauri::{
@@ -10,6 +11,7 @@ use tauri::{App, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_updater::UpdaterExt;
 
 pub fn init(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
+    app_context::set_app(app.handle().clone());
     block_on(async {
         store::init(app).await.unwrap();
     });

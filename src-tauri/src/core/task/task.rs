@@ -1,7 +1,8 @@
 use crate::common::utils;
 use crate::core::s3::credential::{get_s3_pool, S3Credential};
-use crate::db::sqlite::get_sql_lite_pool;
-use crate::db::store::APP_STORE;
+use crate::middleware::app_context::get_app;
+use crate::middleware::sqlite::get_sql_lite_pool;
+use crate::middleware::store::APP_STORE;
 use aws_sdk_s3::operation::create_multipart_upload::CreateMultipartUploadOutput;
 use aws_sdk_s3::types::{CompletedMultipartUpload, CompletedPart};
 use aws_smithy_types::byte_stream::{ByteStream, Length};
@@ -9,6 +10,7 @@ use aws_smithy_types::error::metadata::ProvideErrorMetadata;
 use chrono::Local;
 use log::{error, info, warn};
 use sqlx::FromRow;
+use tauri_plugin_notification::NotificationExt;
 use std::collections::HashMap;
 use tokio::io::AsyncWriteExt;
 use tokio::sync::{broadcast, OnceCell};
@@ -52,6 +54,12 @@ impl TaskType {
             "upload" => Some(TaskType::UPLOAD),
             "download" => Some(TaskType::DOWNLOAD),
             _ => None,
+        }
+    }
+    pub fn get_task_type_name(self) -> String {
+        match self {
+            TaskType::UPLOAD => "上传".to_string(),
+            TaskType::DOWNLOAD => "下载".to_string(),
         }
     }
 }
@@ -227,6 +235,13 @@ impl Task {
                 .bind(&self.id)
                 .execute(&mut *conn)
                 .await?;
+                get_app().clone()
+                    .notification()
+                    .builder()
+                    .title("传输任务已完成")
+                    .body(format!("文件“{}”已{}成功", &self.file_key, TaskType::from_string(&self.task_type).unwrap().get_task_type_name()))
+                    .show()
+                    .unwrap();
             }
             Err(e) => {
                 error!("任务失败:{},{:#?}", &self.id, e);
@@ -238,6 +253,13 @@ impl Task {
                 .bind(&self.id)
                 .execute(&mut *conn)
                 .await?;
+                get_app().clone()
+                    .notification()
+                    .builder()
+                    .title("传输任务失败")
+                    .body(format!("文件“{}”{}失败", &self.file_key, TaskType::from_string(&self.task_type).unwrap().get_task_type_name()))
+                    .show()
+                    .unwrap();
             }
         }
         Ok(())

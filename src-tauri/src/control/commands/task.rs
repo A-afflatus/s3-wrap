@@ -8,6 +8,7 @@ use std::path::{Path, PathBuf};
 use tauri::async_runtime::block_on;
 use tauri::command;
 
+
 lazy_static! {
      //初始化下载目录变量
     pub static ref DOWNLOAD_DIR: String = {
