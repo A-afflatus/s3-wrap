@@ -15,6 +15,10 @@ export const TOOLS = HOME + 'tools'
 export const TOOLS_CONVERT = TOOLS + '/convert'
 export const TOOLS_BASE64 = TOOLS + '/base64'
 
+// AI模块
+export const AI = HOME + 'ai'
+export const AI_ASSISTANT = AI + '/assistant'
+
 //设置
 export const SETTINGS = HOME + 'settings'
 

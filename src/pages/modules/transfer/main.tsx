@@ -1,12 +1,12 @@
-import {Download, Upload,} from "lucide-react"
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card"
-import {Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis,} from "recharts"
-import {ChartContainer, ChartTooltip, ChartTooltipContent} from "@/components/ui/chart"
-import {useDB} from "@/hooks/useDB.tsx";
-import {useEffect, useState} from "react";
-import {formatFileSize} from "@/lib/utils.ts";
-import {useNavigate} from "react-router-dom";
-import {TRANSFER_LIST} from "@/router/constant.ts";
+import { Download, Upload, } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, } from "recharts"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { useDB } from "@/hooks/useDB.tsx";
+import { useEffect, useState } from "react";
+import { formatFileSize } from "@/lib/utils.ts";
+import { useNavigate } from "react-router-dom";
+import { TRANSFER_LIST } from "@/router/constant.ts";
 import dayjs from "dayjs";
 
 type StatisticsType = {
@@ -23,16 +23,16 @@ type TrendType = {
 
 export default function CloudStorageStats() {
     const defaultTrend = [
-        {date: dayjs().add(-6, 'day').format("YYYY-MM-DD"), upload: 0, download: 0},
-        {date: dayjs().add(-5, 'day').format("YYYY-MM-DD"), upload: 0, download: 0},
-        {date: dayjs().add(-4, 'day').format("YYYY-MM-DD"), upload: 0, download: 0},
-        {date: dayjs().add(-3, 'day').format("YYYY-MM-DD"), upload: 0, download: 0},
-        {date: dayjs().add(-2, 'day').format("YYYY-MM-DD"), upload: 0, download: 0},
-        {date: dayjs().add(-1, 'day').format("YYYY-MM-DD"), upload: 0, download: 0},
-        {date: dayjs().format("YYYY-MM-DD"), upload: 0, download: 0},
+        { date: dayjs().add(-6, 'day').format("YYYY-MM-DD"), upload: 0, download: 0 },
+        { date: dayjs().add(-5, 'day').format("YYYY-MM-DD"), upload: 0, download: 0 },
+        { date: dayjs().add(-4, 'day').format("YYYY-MM-DD"), upload: 0, download: 0 },
+        { date: dayjs().add(-3, 'day').format("YYYY-MM-DD"), upload: 0, download: 0 },
+        { date: dayjs().add(-2, 'day').format("YYYY-MM-DD"), upload: 0, download: 0 },
+        { date: dayjs().add(-1, 'day').format("YYYY-MM-DD"), upload: 0, download: 0 },
+        { date: dayjs().format("YYYY-MM-DD"), upload: 0, download: 0 },
     ]
     const navigate = useNavigate();
-    const {DB} = useDB()
+    const { DB } = useDB()
     const [statistics, setStatistics] = useState<StatisticsType>({
         uploadCount: 0,
         downloadCount: 0,
@@ -103,157 +103,153 @@ export default function CloudStorageStats() {
     }, []);
 
     return (
-        <div className="flex min-h-screen w-full flex-col bg-muted/40">
-            <div className="flex flex-col">
-                <main className="flex-1 space-y-4 p-4 md:p-6">
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                        <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer"
-                              onClick={() => navigate(TRANSFER_LIST + "/upload")}>
-                            <CardHeader className="flex flex-row items-center justify-between pb-2">
-                                <CardTitle className="text-sm font-medium">总上传文件</CardTitle>
-                                <Upload className="h-4 w-4 text-muted-foreground"/>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">{statistics.uploadCount.toLocaleString()}</div>
-                            </CardContent>
-                        </Card>
-                        <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer"
-                              onClick={() => navigate(TRANSFER_LIST + "/download")}>
-                            <CardHeader className="flex flex-row items-center justify-between pb-2">
-                                <CardTitle className="text-sm font-medium">总下载文件</CardTitle>
-                                <Download className="h-4 w-4 text-muted-foreground"/>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">{statistics.downloadCount.toLocaleString()}</div>
-                            </CardContent>
-                        </Card>
-                        <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer"
-                              onClick={() => navigate(TRANSFER_LIST + "/upload")}>
-                            <CardHeader className="flex flex-row items-center justify-between pb-2">
-                                <CardTitle className="text-sm font-medium">上传总容量</CardTitle>
-                                <Upload className="h-4 w-4 text-muted-foreground"/>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">{formatFileSize(statistics.uploadSize)}</div>
-                            </CardContent>
-                        </Card>
-                        <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer"
-                              onClick={() => navigate(TRANSFER_LIST + "/download")}>
-                            <CardHeader className="flex flex-row items-center justify-between pb-2">
-                                <CardTitle className="text-sm font-medium">下载总容量</CardTitle>
-                                <Download className="h-4 w-4 text-muted-foreground"/>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="text-2xl font-bold">{formatFileSize(statistics.downloadSize)}</div>
-                            </CardContent>
-                        </Card>
-                    </div>
-                    <div className="grid gap-4 md:grid-cols-2">
-                        <Card className="col-span-1">
-                            <CardHeader>
-                                <CardTitle>上传/下载次数趋势</CardTitle>
-                                <CardDescription>过去7天的上传和下载次数趋势</CardDescription>
-                            </CardHeader>
-                            <CardContent className="pl-2">
-                                <ChartContainer
-                                    config={{
-                                        uploads: {
-                                            label: "上传",
-                                            color: "hsl(var(--chart-1))",
-                                        },
-                                        downloads: {
-                                            label: "下载",
-                                            color: "hsl(var(--chart-2))",
-                                        },
-                                    }}
-                                    className="aspect-[4/3]"
-                                >
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <AreaChart
-                                            data={timesTrend.map((r) => ({
-                                                ...r,
-                                                date: r.date.substring(5, 10),
-                                            }))}
-                                            margin={{top: 10, right: 30, left: 0, bottom: 0}}
-                                        >
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false}/>
-                                            <XAxis dataKey="date"/>
-                                            <YAxis/>
-                                            <ChartTooltip content={<ChartTooltipContent/>}/>
-                                            <Area
-                                                type="monotone"
-                                                dataKey="upload"
-                                                stroke="var(--color-uploads)"
-                                                fill="var(--color-uploads)"
-                                                fillOpacity={0.2}
-                                            />
-                                            <Area
-                                                type="monotone"
-                                                dataKey="download"
-                                                stroke="var(--color-downloads)"
-                                                fill="var(--color-downloads)"
-                                                fillOpacity={0.2}
-                                            />
-                                        </AreaChart>
-                                    </ResponsiveContainer>
-                                </ChartContainer>
-                            </CardContent>
-                        </Card>
-                        <Card className="col-span-1">
-                            <CardHeader>
-                                <CardTitle>上传/下载容量趋势(MB)</CardTitle>
-                                <CardDescription>过去7天的上传和下载容量趋势</CardDescription>
-                            </CardHeader>
-                            <CardContent className="pl-2">
-                                <ChartContainer
-                                    config={{
-                                        uploads: {
-                                            label: "上传",
-                                            color: "hsl(var(--chart-1))",
-                                        },
-                                        downloads: {
-                                            label: "下载",
-                                            color: "hsl(var(--chart-2))",
-                                        },
-                                    }}
-                                    className="aspect-[4/3]"
-                                >
-                                    <ResponsiveContainer width="100%" height="100%">
-                                        <AreaChart
-                                            data={sizeTrend.map((r) => ({
-                                                ...r,
-                                                upload: (r.upload/1024/1024).toFixed(2),
-                                                download: (r.download/1024/1024).toFixed(2),
-                                                date: r.date.substring(5, 10),
-                                            }))}
-                                            margin={{top: 10, right: 30, left: 0, bottom: 0}}
-                                        >
-                                            <CartesianGrid strokeDasharray="3 3" vertical={false}/>
-                                            <XAxis dataKey="date"/>
-                                            <YAxis/>
-                                            <ChartTooltip content={<ChartTooltipContent/>}/>
-                                            <Area
-                                                type="monotone"
-                                                dataKey="upload"
-                                                stroke="var(--color-uploads)"
-                                                fill="var(--color-uploads)"
-                                                fillOpacity={0.2}
-                                            />
-                                            <Area
-                                                type="monotone"
-                                                dataKey="download"
-                                                stroke="var(--color-downloads)"
-                                                fill="var(--color-downloads)"
-                                                fillOpacity={0.2}
-                                            />
-                                        </AreaChart>
-                                    </ResponsiveContainer>
-                                </ChartContainer>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </main>
+        <main className="space-y-4 box-border p-4">
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer"
+                    onClick={() => navigate(TRANSFER_LIST + "/upload")}>
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium">总上传文件</CardTitle>
+                        <Upload className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">{statistics.uploadCount.toLocaleString()}</div>
+                    </CardContent>
+                </Card>
+                <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer"
+                    onClick={() => navigate(TRANSFER_LIST + "/download")}>
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium">总下载文件</CardTitle>
+                        <Download className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">{statistics.downloadCount.toLocaleString()}</div>
+                    </CardContent>
+                </Card>
+                <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer"
+                    onClick={() => navigate(TRANSFER_LIST + "/upload")}>
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium">上传总容量</CardTitle>
+                        <Upload className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">{formatFileSize(statistics.uploadSize)}</div>
+                    </CardContent>
+                </Card>
+                <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer"
+                    onClick={() => navigate(TRANSFER_LIST + "/download")}>
+                    <CardHeader className="flex flex-row items-center justify-between pb-2">
+                        <CardTitle className="text-sm font-medium">下载总容量</CardTitle>
+                        <Download className="h-4 w-4 text-muted-foreground" />
+                    </CardHeader>
+                    <CardContent>
+                        <div className="text-2xl font-bold">{formatFileSize(statistics.downloadSize)}</div>
+                    </CardContent>
+                </Card>
             </div>
-        </div>
+            <div className="grid gap-4 md:grid-cols-2">
+                <Card className="col-span-1">
+                    <CardHeader>
+                        <CardTitle>上传/下载次数趋势</CardTitle>
+                        <CardDescription>过去7天的上传和下载次数趋势</CardDescription>
+                    </CardHeader>
+                    <CardContent className="pl-2">
+                        <ChartContainer
+                            config={{
+                                uploads: {
+                                    label: "上传",
+                                    color: "hsl(var(--chart-1))",
+                                },
+                                downloads: {
+                                    label: "下载",
+                                    color: "hsl(var(--chart-2))",
+                                },
+                            }}
+                            className="aspect-[4/3]"
+                        >
+                            <ResponsiveContainer width="100%" height="100%">
+                                <AreaChart
+                                    data={timesTrend.map((r) => ({
+                                        ...r,
+                                        date: r.date.substring(5, 10),
+                                    }))}
+                                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                                    <XAxis dataKey="date" />
+                                    <YAxis />
+                                    <ChartTooltip content={<ChartTooltipContent />} />
+                                    <Area
+                                        type="monotone"
+                                        dataKey="upload"
+                                        stroke="var(--color-uploads)"
+                                        fill="var(--color-uploads)"
+                                        fillOpacity={0.2}
+                                    />
+                                    <Area
+                                        type="monotone"
+                                        dataKey="download"
+                                        stroke="var(--color-downloads)"
+                                        fill="var(--color-downloads)"
+                                        fillOpacity={0.2}
+                                    />
+                                </AreaChart>
+                            </ResponsiveContainer>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+                <Card className="col-span-1">
+                    <CardHeader>
+                        <CardTitle>上传/下载容量趋势(MB)</CardTitle>
+                        <CardDescription>过去7天的上传和下载容量趋势</CardDescription>
+                    </CardHeader>
+                    <CardContent className="pl-2">
+                        <ChartContainer
+                            config={{
+                                uploads: {
+                                    label: "上传",
+                                    color: "hsl(var(--chart-1))",
+                                },
+                                downloads: {
+                                    label: "下载",
+                                    color: "hsl(var(--chart-2))",
+                                },
+                            }}
+                            className="aspect-[4/3]"
+                        >
+                            <ResponsiveContainer width="100%" height="100%">
+                                <AreaChart
+                                    data={sizeTrend.map((r) => ({
+                                        ...r,
+                                        upload: (r.upload / 1024 / 1024).toFixed(2),
+                                        download: (r.download / 1024 / 1024).toFixed(2),
+                                        date: r.date.substring(5, 10),
+                                    }))}
+                                    margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                                    <XAxis dataKey="date" />
+                                    <YAxis />
+                                    <ChartTooltip content={<ChartTooltipContent />} />
+                                    <Area
+                                        type="monotone"
+                                        dataKey="upload"
+                                        stroke="var(--color-uploads)"
+                                        fill="var(--color-uploads)"
+                                        fillOpacity={0.2}
+                                    />
+                                    <Area
+                                        type="monotone"
+                                        dataKey="download"
+                                        stroke="var(--color-downloads)"
+                                        fill="var(--color-downloads)"
+                                        fillOpacity={0.2}
+                                    />
+                                </AreaChart>
+                            </ResponsiveContainer>
+                        </ChartContainer>
+                    </CardContent>
+                </Card>
+            </div>
+        </main>
     )
 }

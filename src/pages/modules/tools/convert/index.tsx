@@ -109,7 +109,7 @@ export default function ImageConversionUI() {
     }
 
     return (
-        <div className="grid gap-8 md:grid-cols-[1fr_300px]">
+        <div className="grid gap-8 md:grid-cols-[1fr_300px] box-border p-4">
             <div className="space-y-6">
                 {/* Upload Area */}
                 <Card className="border-dashed" hidden={!!currentImage}>

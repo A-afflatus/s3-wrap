@@ -292,9 +292,7 @@ export default function Index() {
     }
     // endregion
     return (
-        <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min box-border p-4">
-            <div className="w-full">
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 box-border p-4">
                     <Tabs defaultValue="all" className="table-fixed" value={activeTab} onValueChange={v=>{
                         setActiveTab(v)
                         setCurrentPage(1)
@@ -553,7 +551,5 @@ export default function Index() {
                         </Pagination>
                     </div>
                 </div>
-            </div>
-        </div>
     )
 }

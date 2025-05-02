@@ -18,10 +18,10 @@ export default function SettingsSidebar({ activeCategory, setActiveCategory }: S
 
     return (
         <div className="w-34 border-r">
-            <div className="pt-3 text-xs text-muted-foreground text-center">
+            <div className="pt-3 pb-1 text-xs text-muted-foreground text-center">
                 v{version}
             </div>
-            <div className="p-2">
+            <div className="pr-2">
                 <div className="space-y-1">
                     {categories.map((category) => (
                         <button

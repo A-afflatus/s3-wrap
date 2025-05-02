@@ -45,8 +45,7 @@ const TOOLS = [
 export default () => {
     const navigate = useNavigate();
 
-    return <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min box-border p-4">
-        <div className="w-full grid grid-cols-3">
+    return <div className="w-full flex flex-wrap gap-4 box-border p-4">
             {
                 TOOLS.map((item, index) => {
                     return <Card key={index}
@@ -73,5 +72,4 @@ export default () => {
                 })
             }
         </div>
-    </div>
 }

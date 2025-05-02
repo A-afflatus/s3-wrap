@@ -1,5 +1,6 @@
 import {ArrowRightLeft, BicepsFlexed, Bot, ChevronRight, Gauge, Settings2, Trash, Wrench} from "lucide-react"
 import {
+    AI_ASSISTANT,
     BUCKETS,
     DASHBOARD,
     NOT_DEV,
@@ -121,9 +122,14 @@ const navMain = [
     },
     {
         title: "AI",
-        url: NOT_DEV,
+        url: AI_ASSISTANT,
         icon: Bot,
-        items: [],
+        items: [
+            {
+                title: "助手",
+                url: AI_ASSISTANT,
+            },
+        ],
     },
     {
         title: "设置",

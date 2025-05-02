@@ -186,7 +186,7 @@ export default () => {
         <>
             {selectedBucket &&
                 <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                    <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-scroll">
+                    <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-scroll [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                         <DialogHeader>
                             <DialogTitle className="flex items-center gap-2">
                                 <Database className="h-5 w-5"/>

@@ -16,9 +16,9 @@ export function Content() {
     }
     return (
         <CredentialProvider>
-            <SidebarProvider className=''>
+            <SidebarProvider className='select-none'>
                 <AppSidebar className='w-[220px]'/>
-                <SidebarInset>
+                <SidebarInset className='flex flex-col h-screen overflow-y-auto'>
                     <header
                         className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
                         <div className="flex items-center gap-2 px-4">
@@ -33,9 +33,7 @@ export function Content() {
                             </Breadcrumb>
                         </div>
                     </header>
-                    <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                        <Outlet/>
-                    </div>
+                    <Outlet/>
                 </SidebarInset>
             </SidebarProvider>
         </CredentialProvider>

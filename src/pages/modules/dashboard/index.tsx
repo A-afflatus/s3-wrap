@@ -39,7 +39,7 @@ export default function DashboardPage() {
 
 
     return (
-        <div className="container mx-auto px-4">
+        <div className="box-border p-4 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between pb-2">

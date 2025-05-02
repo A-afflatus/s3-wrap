@@ -11,10 +11,10 @@ export default () => {
     const [searchQuery, setSearchQuery] = useState("")
 
     return (
-        <div className="min-h-[100vh] flex flex-1 rounded-xl bg-muted/50 md:min-h-min box-border">
+        <div className="flex flex-1 box-border p-4">
             <SettingsSidebar activeCategory={activeCategory} setActiveCategory={setActiveCategory}/>
             <div className="flex-1 overflow-auto rounded-tr-xl">
-                <div className="sticky top-0 z-10 border-b bg-muted/50 p-2">
+                <div className="sticky top-0 z-10 border-b  p-2">
                     <div className="relative">
                         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground"/>
                         <Input

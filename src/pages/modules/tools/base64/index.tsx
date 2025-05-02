@@ -4,8 +4,7 @@ import { Base64ToFile } from "./ToFile.tsx"
 
 export default function ConversionPage() {
     return (
-        <div className="container mx-auto px-4">
-            <Tabs defaultValue="file-to-base64" className="max-w-3xl mx-auto">
+            <Tabs defaultValue="file-to-base64" className="box-border p-4">
                 <TabsList className="grid w-full grid-cols-2 mb-8">
                     <TabsTrigger value="file-to-base64">文件转 Base64</TabsTrigger>
                     <TabsTrigger value="base64-to-file">Base64 转文件</TabsTrigger>
@@ -19,6 +18,5 @@ export default function ConversionPage() {
                     <Base64ToFile />
                 </TabsContent>
             </Tabs>
-        </div>
     )
 }

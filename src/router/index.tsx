@@ -10,6 +10,7 @@ import {
     TOOLS, TOOLS_BASE64,
     TOOLS_CONVERT,
     TRANSFER_LIST,
+    AI_ASSISTANT,
     USER,
 } from './constant';
 import NotFound from '@/components/NotFound'
@@ -24,7 +25,7 @@ import NotDev from "@/pages/NotDev.tsx";
 import Tools from "@/pages/modules/tools"
 import ImageConvert from "@/pages/modules/tools/convert"
 import BaseConvert from "@/pages/modules/tools/base64"
-
+import AIAssistant from "@/pages/modules/ai/Assistant"
 
 
 const router = createBrowserRouter(
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
                 <Route key={TOOLS} path={TOOLS} handle={{title: "工具"}} element={<Tools/>}/>
                 <Route key={TOOLS_CONVERT} path={TOOLS_CONVERT} handle={{title: "图片转换"}} element={<ImageConvert/>}/>
                 <Route key={TOOLS_BASE64} path={TOOLS_BASE64} handle={{title: "BASE64转换"}} element={<BaseConvert/>}/>
+                <Route key={AI_ASSISTANT} path={AI_ASSISTANT} handle={{title: "AI助手"}} element={<AIAssistant/>}/>
                 <Route key={NOT_DEV} path={NOT_DEV} handle={{title: "暂未开发"}} element={<NotDev/>}/>
                 {/*主页默认*/}
                 <Route key="home-default" path={HOME} element={<Navigate to={DASHBOARD}/>}/>
