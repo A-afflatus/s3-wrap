@@ -1,6 +1,9 @@
 import {ArrowRightLeft, BicepsFlexed, Bot, ChevronRight, Gauge, Settings2, Trash, Wrench} from "lucide-react"
 import {
     AI_ASSISTANT,
+    AI_KNOWLEDGE,
+    AI_MCP,
+    AI_MODEL,
     BUCKETS,
     DASHBOARD,
     NOT_DEV,
@@ -126,8 +129,20 @@ const navMain = [
         icon: Bot,
         items: [
             {
-                title: "助手",
+                title: "Chat",
                 url: AI_ASSISTANT,
+            },
+            {
+                title: "模型",
+                url: AI_MODEL,
+            },
+            {
+                title: "知识库",
+                url: AI_KNOWLEDGE,
+            },
+            {
+                title: "MCP",
+                url: AI_MCP,
             },
         ],
     },

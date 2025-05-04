@@ -51,7 +51,7 @@ pub fn init(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
         .title("s3-wrap")
         .resizable(true)
         .inner_size(1100.0, 800.0)
-        .min_inner_size(1100.0, 800.0)
+        // .min_inner_size(1100.0, 800.0)
         .theme(Some(app_theme))
         .build()
         .expect("创建主窗口失败");

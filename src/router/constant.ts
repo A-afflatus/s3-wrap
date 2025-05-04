@@ -18,6 +18,9 @@ export const TOOLS_BASE64 = TOOLS + '/base64'
 // AI模块
 export const AI = HOME + 'ai'
 export const AI_ASSISTANT = AI + '/assistant'
+export const AI_MODEL = AI + '/model'
+export const AI_KNOWLEDGE = AI + '/knowledge'
+export const AI_MCP = AI + '/mcp'
 
 //设置
 export const SETTINGS = HOME + 'settings'
