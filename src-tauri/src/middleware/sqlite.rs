@@ -54,16 +54,16 @@ async fn file_path() -> anyhow::Result<String> {
 async fn sql_init(pool: &Pool<Sqlite>) -> anyhow::Result<()> {
     let create_table_sql = r#"
         CREATE TABLE IF NOT EXISTS credentials (
-            id TEXT PRIMARY KEY,
-            name TEXT NOT NULL,
-            access_key_id TEXT NOT NULL,
-            secret_access_key TEXT NOT NULL,
-            region TEXT NOT NULL,
-            endpoint TEXT NOT NULL,
-            force_path_style INTEGER NOT NULL
+            id TEXT PRIMARY KEY, -- 凭证id
+            name TEXT NOT NULL, -- 凭证名称
+            access_key_id TEXT NOT NULL, -- 访问密钥id
+            secret_access_key TEXT NOT NULL, -- 访问密钥
+            region TEXT NOT NULL, -- 区域
+            endpoint TEXT NOT NULL, -- 端点
+            force_path_style INTEGER NOT NULL -- 路径样式 0 是 1 否
         );
         CREATE TABLE IF NOT EXISTS s3_transfer_task (
-            id TEXT PRIMARY KEY,
+            id TEXT PRIMARY KEY, -- 任务id
             credential_id TEXT NOT NULL, -- 凭证id
             bucket TEXT NOT NULL, -- 桶
             file_key TEXT, -- 文件s3key
@@ -79,6 +79,22 @@ async fn sql_init(pool: &Pool<Sqlite>) -> anyhow::Result<()> {
             id TEXT PRIMARY KEY,
             date TEXT NOT NULL, -- 日期 yyyy-MM-dd
             minutes INTEGER NOT NULL -- 分钟数
+        );
+        CREATE TABLE IF NOT EXISTS ai_model_provider (
+            id TEXT PRIMARY KEY, -- 提供商id
+            name TEXT NOT NULL, -- 提供商名称
+            type TEXT NOT NULL, -- 提供商类型 deepseek qwen custom
+            api_key TEXT NOT NULL, -- 提供商api_key
+            api_url TEXT NOT NULL, -- 提供商api_url
+            active INTEGER NOT NULL -- 是否启用 0 否 1 是
+        );
+        CREATE TABLE IF NOT EXISTS ai_model (
+            id TEXT PRIMARY KEY, -- id
+            model_id TEXT NOT NULL, -- 模型id
+            name TEXT NOT NULL, -- 模型名称
+            provider_id TEXT NOT NULL, -- 提供商id
+            access_types TEXT, -- 模型类型 视觉:vision 文本:text 推理:thinking 工具调用:tool 逗号(,)分隔
+            active INTEGER NOT NULL -- 是否启用 0 否 1 是
         );
     "#;
     pool.execute(create_table_sql).await?;

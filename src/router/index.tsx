@@ -30,6 +30,7 @@ import ImageConvert from "@/pages/modules/tools/convert"
 import BaseConvert from "@/pages/modules/tools/base64"
 import AIAssistant from "@/pages/modules/ai/chat"
 import Model from '@/pages/modules/ai/model';
+import ProviderModels from '@/pages/modules/ai/model/ProviderModels';
 import Knowledge from '@/pages/modules/ai/knowledge';
 import MCP from '@/pages/modules/ai/mcp';
 
@@ -50,6 +51,7 @@ const router = createBrowserRouter(
                 <Route key={TOOLS_BASE64} path={TOOLS_BASE64} handle={{title: "BASE64转换"}} element={<BaseConvert/>}/>
                 <Route key={AI_ASSISTANT} path={AI_ASSISTANT} handle={{title: "Chat"}} element={<AIAssistant/>}/>
                 <Route key={AI_MODEL} path={AI_MODEL} handle={{title: "模型"}} element={<Model/>}/>
+                <Route key={AI_MODEL} path={AI_MODEL + "/:id"} handle={{title: "模型管理"}} element={<ProviderModels/>}/>
                 <Route key={AI_KNOWLEDGE} path={AI_KNOWLEDGE} handle={{title: "知识库"}} element={<Knowledge/>}/>
                 <Route key={AI_MCP} path={AI_MCP} handle={{title: "MCP"}} element={<MCP/>}/>
                 <Route key={NOT_DEV} path={NOT_DEV} handle={{title: "暂未开发"}} element={<NotDev/>}/>
