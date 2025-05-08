@@ -1,17 +1,17 @@
-import { useEffect, useState } from "react"
-import { PlusIcon, Trash2Icon, Edit2Icon, CheckIcon, XIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { AddProviderDialog } from "./moudles/AddProviderDialog"
-import { Badge } from "@/components/ui/badge"
-import { Model, Provider, PROVIDER_TYPES } from "./type"
-import { confirm } from "@tauri-apps/plugin-dialog"
-import { useNavigate } from "react-router-dom"
-import { AI_MODEL } from "@/router/constant"
-import { useDB } from "@/hooks/useDB"
+import {useEffect, useState} from "react"
+import {CheckIcon, Edit2Icon, PlusIcon, Trash2Icon, XIcon} from "lucide-react"
+import {Button} from "@/components/ui/button"
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
+import {Input} from "@/components/ui/input"
+import {Label} from "@/components/ui/label"
+import {Switch} from "@/components/ui/switch"
+import {AddProviderDialog} from "./moudles/AddProviderDialog"
+import {Badge} from "@/components/ui/badge"
+import {Model, Provider, PROVIDER_TYPES} from "./type"
+import {confirm} from "@tauri-apps/plugin-dialog"
+import {useNavigate} from "react-router-dom"
+import {AI_MODEL} from "@/router/constant"
+import {useDB} from "@/hooks/useDB"
 
 export default function Providers() {
     const navigate = useNavigate()
@@ -29,8 +29,7 @@ export default function Providers() {
             .then((res1) => {
                 const models = res1 as Model[]
                 providers.forEach((provider) => {
-                    const modelList = models.filter((model) => model.providerId === provider.id)
-                    provider.models = modelList
+                    provider.models = models.filter((model) => model.providerId === provider.id)
                 })
                 setProviders(providers)
             })

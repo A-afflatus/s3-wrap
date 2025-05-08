@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { ArrowLeftIcon, Brain, Eye, PlusIcon, Trash2Icon, Wrench, PencilIcon } from "lucide-react"
+import {ArrowLeftIcon, Brain, Eye, PlusIcon, Trash2Icon, Wrench, PencilIcon, Globe} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -146,7 +146,7 @@ export default function ProviderModels() {
                     <td className="p-3 font-mono text-sm">{model.modelId}</td>
                     <td className="p-3">{model.name}</td>
                     <td className="p-3">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1">
                         {
                           model.accessTypes.split(',')
                             .sort((a, b) => a.localeCompare(b))
@@ -155,11 +155,13 @@ export default function ProviderModels() {
                             .map((type) => {
                               switch (type.trim()) {
                                 case 'vision':
-                                  return <Eye className="w-4 h-4" color="#1cc17b" />
+                                  return <Eye key={`model-${model.id}-${type}`} className="w-4 h-4" color="#1cc17b" />
+                                case 'web':
+                                  return <Globe key={`model-${model.id}-${type}`} className="w-4 h-4" color="#3086ff" />
                                 case 'thinking':
-                                  return <Brain className="w-4 h-4" color="#7d89d4" />
+                                  return <Brain key={`model-${model.id}-${type}`} className="w-4 h-4" color="#7d89d4" />
                                 case 'tool':
-                                  return <Wrench className="w-4 h-4" color="#ed8536" />
+                                  return <Wrench key={`model-${model.id}-${type}`} className="w-4 h-4" color="#ed8536" />
                               }
                             })
                         }
@@ -228,6 +230,12 @@ export default function ProviderModels() {
                   视觉
                 </div>
                 <div>
+                  <Checkbox id="model-support-web" value="web"
+                    checked={newModelSupport.includes('web')}
+                    onCheckedChange={(checked: boolean) => handleChangeModelSupport('web', checked)} />
+                  联网
+                </div>
+                <div>
                   <Checkbox id="model-support-thinking" value="thinking"
                     checked={newModelSupport.includes('thinking')}
                     onCheckedChange={(checked: boolean) => handleChangeModelSupport('thinking', checked)} />
@@ -281,6 +289,12 @@ export default function ProviderModels() {
                     checked={editModelSupport.includes('vision')}
                     onCheckedChange={(checked: boolean) => handleChangeEditModelSupport('vision', checked)} />
                   视觉
+                </div>
+                <div>
+                  <Checkbox id="edit-model-support-web" value="web"
+                    checked={editModelSupport.includes('web')}
+                    onCheckedChange={(checked: boolean) => handleChangeEditModelSupport('web', checked)} />
+                  联网
                 </div>
                 <div>
                   <Checkbox id="edit-model-support-thinking" value="thinking"

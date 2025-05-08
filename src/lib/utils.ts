@@ -101,3 +101,11 @@ export function fileToBase64(file: File): Promise<string> {
         reader.readAsDataURL(file)
     })
 }
+
+/**
+ * 转dataUrl
+ */
+export function uint8ArrayToDataURL(uint8Array: Uint8Array, mimeType = 'application/octet-stream') {
+    const blob = new Blob([uint8Array], { type: mimeType });
+    return URL.createObjectURL(blob);
+}

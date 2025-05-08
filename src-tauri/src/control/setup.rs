@@ -1,6 +1,6 @@
 use crate::middleware::store;
 use crate::middleware::app_context;
-use log::info;
+use log::{error, info};
 use tauri::async_runtime::block_on;
 use tauri::{
     menu::{Menu, MenuItem},
@@ -17,7 +17,14 @@ pub fn init(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
     });
     let handle = app.handle().clone();
     tauri::async_runtime::spawn(async move {
-        update(handle).await.unwrap();
+        match update(handle).await{
+            Ok(_) => {
+                info!("检测更新完成");
+            }
+            Err(e) => {
+                error!("检测更新失败{:#?}", e);
+            }
+        }
     });
     // ! 系统推盘
     let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;

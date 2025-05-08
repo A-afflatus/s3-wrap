@@ -50,6 +50,7 @@
     "sql:allow-select",
     "fs:default",
     "fs:read-all",
+    "fs:allow-temp-write",
     "fs:allow-app-meta",
     "fs:allow-app-write",
     "fs:allow-app-write-recursive",

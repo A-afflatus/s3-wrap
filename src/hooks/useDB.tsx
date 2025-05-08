@@ -42,6 +42,7 @@ DBProvider.displayName = "DBProvider"
 export {
     DBProvider,
     DBContext,
+    connect,
     useDB
 };
 

@@ -103,6 +103,7 @@ export function AddProviderDialog({ open, onOpenChange }: AddProviderDialogProps
                             <Input
                                 id="apiUrl"
                                 value={newProvider.apiUrl}
+                                disabled={newProvider.type !== "custom"}
                                 onChange={(e) => handleChange("apiUrl", e.target.value)}
                                 placeholder="https://api.example.com/v1"
                                 required
